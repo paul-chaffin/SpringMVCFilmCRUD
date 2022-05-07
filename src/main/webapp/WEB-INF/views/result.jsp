@@ -25,6 +25,6 @@
       <p>No film found</p>
     </c:otherwise>
   </c:choose>
-  <a href="home.jsp">Return to main page</a>
+  <a href="home.do">Return to main page</a>
 </body>
 </html>
