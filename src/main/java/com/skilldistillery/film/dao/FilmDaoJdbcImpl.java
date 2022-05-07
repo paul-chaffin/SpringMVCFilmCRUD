@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.springframework.stereotype.Component;
 
@@ -19,7 +18,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	private final String pass = "student";
 
 	@Override
-	public Film findFilmByID(int id) {
+	public Film findFilmByID(int id) throws SQLException{
 
 		Film film = null;
 
@@ -51,7 +50,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
 				film.setRating(rs.getString("film.rating"));
 				film.setSpecialFeatures(rs.getString("film.special_features"));
-		//		film.setActors(findActorsByFilmId(filmId)); 
+		//		film.setActors(findActorsByFilmId(filmId)); 	
 
 			}
 			rs.close();
