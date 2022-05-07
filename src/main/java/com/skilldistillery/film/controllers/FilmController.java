@@ -64,10 +64,15 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path = "deleteFilm.do", params = "filmID", method = RequestMethod.GET) 
-	public ModelAndView deleteFilm(int filmID) {
+	@RequestMapping(path = "deleteFilm.do", params = "deleteFilmID", method = RequestMethod.GET) 
+	public ModelAndView deleteFilm(Integer deleteFilmID) {
 		ModelAndView mv = new ModelAndView();
-		
+		boolean success = filmDao.deleteFilm(deleteFilmID);
+		if (success) {
+			mv.setViewName("WEB-INF/views/deleted.jsp");
+		} else {
+			mv.setViewName("WEB-INF/views/deletedFailed.jsp");
+		}
 		
 		
 		return mv;

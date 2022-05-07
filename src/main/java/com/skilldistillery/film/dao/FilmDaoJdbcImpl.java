@@ -119,17 +119,17 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public boolean deleteFilm(Film film) {
+	public boolean deleteFilm(Integer deleteFilmID) {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(URL, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "DELETE FROM film WHERE film.id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, film.getId());
+			stmt.setInt(1, deleteFilmID);
 			int updateCount = stmt.executeUpdate();
 			if (updateCount == 1) {
-				System.out.println(film.getTitle() + "removed from database.");
+				System.out.println("Film ID" + deleteFilmID + "removed from database.");
 			} else {
 				System.out.println("Something went wrong.");
 			}

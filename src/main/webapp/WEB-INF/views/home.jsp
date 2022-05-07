@@ -27,6 +27,12 @@
 		<label for="replacementCost"> <strong>Enter replacement cost:</strong> </label><input type="text" name="replacementCost" size="6"/> 
 		<input type="submit" value="Add Film" /> 
 	</form>
+		<br><h3>Delete a film you previously added:</h3>
+	<form action="deleteFilm.do" method="GET">
+		<label for="deleteFilmID">Film ID:</label>
+		<input type="text" name="deleteFilmID" size="4"/> 
+		<input type="submit" value="Search" />
+	</form>
 
 
 </body>
