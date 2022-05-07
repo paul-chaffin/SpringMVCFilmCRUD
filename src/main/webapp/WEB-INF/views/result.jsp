@@ -13,6 +13,7 @@
   <c:choose>
     <c:when test="${! empty film}">
       <ul>
+      	<li><strong>ID:</strong> ${film.id}</li>
         <li><strong>Title:</strong> ${film.title}</li>
         <li><strong>Year:</strong> ${film.releaseYear}</li>
         <li><strong>Rating:</strong> ${film.rating}</li>

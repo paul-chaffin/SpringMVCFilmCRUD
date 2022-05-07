@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.dao.FilmDAO;
@@ -23,14 +24,14 @@ public class FilmController {
 	} 
 	 
 	@RequestMapping(path = "FindFilmByID.do", params = "filmID", method = RequestMethod.GET) 
-	public ModelAndView findFilmByID(int filmID) {
+	public ModelAndView findFilmByID(@RequestParam("filmID") int filmID) {
 		ModelAndView mv = new ModelAndView();
 		
 		Film film = null;
 		try {
 			film = filmDao.findFilmByID(filmID);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		mv.addObject("film", film);
@@ -54,7 +55,7 @@ public class FilmController {
 		try {
 			newFilm = filmDao.createFilm(newFilm);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace(); 
 		}
 		
@@ -62,5 +63,16 @@ public class FilmController {
 		mv.setViewName("WEB-INF/views/result.jsp"); 
 		return mv;
 	}
-
+	
+	@RequestMapping(path = "deleteFilm.do", params = "filmID", method = RequestMethod.GET) 
+	public ModelAndView deleteFilm(int filmID) {
+		ModelAndView mv = new ModelAndView();
+		
+		
+		
+		return mv;
+		
+	}
+	
+	
 }

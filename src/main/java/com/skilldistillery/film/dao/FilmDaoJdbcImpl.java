@@ -34,10 +34,12 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 		try {
 
-			String sql = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, language.name, film.rental_duration,"
-					+ " film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features"
-					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id "
-					+ " JOIN language ON language.id=film.language_id where film.id = ?";
+//			String sql = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, language.name, film.rental_duration,"
+//					+ " film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features"
+//					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id "
+//					+ " JOIN language ON language.id=film.language_id where film.id = ?";
+			
+			String sql = "SELECT * FROM film join language on film.language_id = language.id where film.id = ?";
 
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -115,5 +117,37 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film; 
 	}
+
+	@Override
+	public boolean deleteFilm(Film film) {
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "DELETE FROM film WHERE film.id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, film.getId());
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				System.out.println(film.getTitle() + "removed from database.");
+			} else {
+				System.out.println("Something went wrong.");
+			}
+			conn.commit(); // COMMIT TRANSACTION
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	
 
 }
