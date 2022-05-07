@@ -25,14 +25,14 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 		try {
 
-			String sql = "SELECT film.id, film.title, description, release_year, language_id, language.name, rental_duration, \n"
-					+ " rental_rate, length, replacement_cost, rating, special_features\n"
-					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id \n"
-					+ " JOIN language ON language.id=film.language_id where film.id = ?";
+			String sql = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, language.name, film.rental_duration,"
+					+ " film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features"
+					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id "
+					+ " JOIN language ON language.id=film.language_id where film.id = ?"; 
 
 			Connection conn = DriverManager.getConnection(URL, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(1, id);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id); 
 
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -40,23 +40,24 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 				film.setId(rs.getInt("film.id"));
 				film.setTitle(rs.getString("film.title"));
-				film.setDescription(rs.getString("description"));
-				film.setReleaseYear(rs.getInt("release_year"));
-				film.setLanguageID(rs.getInt("language_id"));
+				film.setDescription(rs.getString("film.description"));
+				film.setReleaseYear(rs.getInt("film.release_year"));
+				film.setLanguageID(rs.getInt("film.language_id"));
 				film.setLanguage(rs.getString("language.name"));
 				
-				film.setRentalDuration(rs.getInt("rental_duration"));
-				film.setRentalRate(rs.getDouble("rental_rate"));
-				film.setLength(rs.getInt("length"));
-				film.setReplacementCost(rs.getDouble("replacement_cost"));
-				film.setRating(rs.getString("rating"));
-				film.setSpecialFeatures(rs.getString("special_features"));
-		//		film.setActors(findActorsByFilmId(filmId));
+				film.setRentalDuration(rs.getInt("film.rental_duration"));
+				film.setRentalRate(rs.getDouble("film.rental_rate"));
+				film.setLength(rs.getInt("film.length"));
+				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
+				film.setRating(rs.getString("film.rating"));
+				film.setSpecialFeatures(rs.getString("film.special_features"));
+		//		film.setActors(findActorsByFilmId(filmId)); 
 
 			}
 			rs.close();
 			stmt.close();
 			conn.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

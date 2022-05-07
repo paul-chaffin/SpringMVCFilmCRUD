@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>States</title>
+<title>Film Query</title>
 </head>
 <body>
   <c:choose>
