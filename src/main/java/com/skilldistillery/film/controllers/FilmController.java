@@ -39,5 +39,28 @@ public class FilmController {
 		return mv; 
 //		return "WEB-INF/views/home.jsp"; 
 	}
+	
+	@RequestMapping(path = "CreateNewFilm.do", params = {"title", "rentalDuration", "rentalRate", "replacementCost"} , method=RequestMethod.POST)
+	public ModelAndView createFilm(String title, int rentalDuration, double rentalRate, double replacementCost) {
+		ModelAndView mv = new ModelAndView();
+		
+		Film newFilm = new Film();
+		
+		newFilm.setTitle(title); 
+		newFilm.setRentalDuration(rentalDuration);
+		newFilm.setRentalRate(rentalRate);
+		newFilm.setReplacementCost(replacementCost); 
+		
+		try {
+			newFilm = filmDao.createFilm(newFilm);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); 
+		}
+		
+		mv.addObject("film", newFilm);
+		mv.setViewName("WEB-INF/views/result.jsp"); 
+		return mv;
+	}
 
 }

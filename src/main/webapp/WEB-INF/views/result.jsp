@@ -16,12 +16,15 @@
         <li><strong>Title:</strong> ${film.title}</li>
         <li><strong>Year:</strong> ${film.releaseYear}</li>
         <li><strong>Rating:</strong> ${film.rating}</li>
-        <li><strong>Runtime:</strong> ${film.length}</li>
+        <li><strong>Rental Duration:</strong> ${film.rentalDuration}</li>
+        <li><strong>Rental rate:</strong> ${film.rentalRate}</li>
+        <li><strong>Replacement cost:</strong> ${film.replacementCost}</li>
       </ul>
     </c:when>
     <c:otherwise>
       <p>No film found</p>
     </c:otherwise>
   </c:choose>
+  <a href="home.jsp">Return to main page</a>
 </body>
 </html>

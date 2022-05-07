@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	private final String user = "student";
 	private final String pass = "student";
-	
+
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -27,7 +28,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public Film findFilmByID(int id) throws SQLException{
+	public Film findFilmByID(int id) throws SQLException {
 
 		Film film = null;
 
@@ -36,11 +37,11 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			String sql = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, language.name, film.rental_duration,"
 					+ " film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features"
 					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id "
-					+ " JOIN language ON language.id=film.language_id where film.id = ?"; 
+					+ " JOIN language ON language.id=film.language_id where film.id = ?";
 
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id); 
+			stmt.setInt(1, id);
 
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -52,29 +53,67 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReleaseYear(rs.getInt("film.release_year"));
 				film.setLanguageID(rs.getInt("film.language_id"));
 				film.setLanguage(rs.getString("language.name"));
-				
+
 				film.setRentalDuration(rs.getInt("film.rental_duration"));
 				film.setRentalRate(rs.getDouble("film.rental_rate"));
 				film.setLength(rs.getInt("film.length"));
 				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
 				film.setRating(rs.getString("film.rating"));
 				film.setSpecialFeatures(rs.getString("film.special_features"));
-		//		film.setActors(findActorsByFilmId(filmId)); 	
+				// film.setActors(findActorsByFilmId(filmId));
 
 			}
 			rs.close();
 			stmt.close();
 			conn.close();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return film;
 	}
 
-	
-	
-	
-	
-	
+	@Override
+	public Film createFilm(Film film) {
+
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "INSERT INTO film (title, language_id, rental_duration, rental_rate, replacement_cost) "
+					+ " VALUES (?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, film.getTitle());
+			stmt.setInt(2, 1);
+			stmt.setInt(3, film.getRentalDuration());
+			stmt.setDouble(4, film.getRentalRate());
+			stmt.setDouble(5, film.getReplacementCost());
+			// EXECUTE
+			int updateCount = stmt.executeUpdate();
+			// CHECK PROPER INSERT
+			if (updateCount == 1) {
+				ResultSet keys = stmt.getGeneratedKeys();
+				if (keys.next()) {
+					int newFilmId = keys.getInt(1);
+					film.setId(newFilmId);
+				}
+			} else {
+				film = null;
+			}
+			conn.commit(); // COMMIT TRANSACTION
+//			System.out.println(film.toString()); // for testing only 
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			throw new RuntimeException("Error inserting film " + film);
+		}
+		return film; 
+	}
+
 }
