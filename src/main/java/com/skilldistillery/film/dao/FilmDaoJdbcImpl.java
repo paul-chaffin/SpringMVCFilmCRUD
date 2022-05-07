@@ -16,6 +16,15 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	private final String user = "student";
 	private final String pass = "student";
+	
+	static {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Film findFilmByID(int id) throws SQLException{

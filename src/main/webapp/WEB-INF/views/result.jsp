@@ -14,7 +14,7 @@
     <c:when test="${! empty film}">
       <ul>
         <li><strong>Title:</strong> ${film.title}</li>
-        <li><strong>Year:</strong> ${film.release_year}</li>
+        <li><strong>Year:</strong> ${film.releaseYear}</li>
         <li><strong>Rating:</strong> ${film.rating}</li>
         <li><strong>Runtime:</strong> ${film.length}</li>
       </ul>
