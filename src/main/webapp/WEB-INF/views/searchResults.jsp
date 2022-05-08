@@ -28,7 +28,13 @@
 					<td><strong>Length:</strong> ${film.length}</td>
 					<td><strong>Replacement cost:</strong> ${film.replacementCost}</td>
 					<td><strong>Description:</strong> ${film.description}</td>
+					<td><strong>Cast:</strong>
+					<c:forEach var="actor" items="${film.actors}">
+					${actor.firstName} ${actor.lastName},
+				</c:forEach></td>
+
 				</tr>
+
 			</c:forEach>
 		</table>
 		</p>

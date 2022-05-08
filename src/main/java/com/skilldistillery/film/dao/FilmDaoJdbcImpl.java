@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 @Component
@@ -30,6 +31,32 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
+	public List<Actor> findActors(int filmId) {
+		List<Actor> actors = new ArrayList<>();
+		Actor actor = null;
+
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			String sql = "SELECT first_name, last_name";
+			sql += " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, filmId);
+			ResultSet actorResult = stmt.executeQuery();
+			while (actorResult.next()) {
+				actor = new Actor(); // Create the object
+				actor.setFirstName(actorResult.getString(1));
+				actor.setLastName(actorResult.getString(2));
+				actors.add(actor);
+			}
+			actorResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actors;
+	}
+
 	public Film findFilmByID(int id) throws SQLException {
 
 		Film film = null;
@@ -59,7 +86,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
 				film.setRating(rs.getString("film.rating"));
 				film.setSpecialFeatures(rs.getString("film.special_features"));
-				// film.setActors(findActorsByFilmId(filmId));
+				film.setActors(findActors(rs.getInt("film.id")));
 
 			}
 			rs.close();
@@ -71,7 +98,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film;
 	}
-	
+
 	@Override
 	public List<Film> findFilmsBySearchKeyword(String keyword) {
 
@@ -84,10 +111,10 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 //					+ " rental_rate, length, replacement_cost, rating, special_features, language.name)"
 //					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id"
 //					+ " JOIN language ON language.id = film.language_id WHERE film.title LIKE ? OR film.description LIKE ?";
-			
+
 //			String sql = "SELECT film.id, film.title, film.release_year, language.name, film.language_id, language.id, film.description,"
 //						+" film.rating FROM film JOIN language ON film.language_id = language.id WHERE title LIKE ? OR description LIKE ?";
-			
+
 			String sql = "SELECT * FROM film WHERE title LIKE ? OR description LIKE ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -113,7 +140,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
 				film.setRating(rs.getString("film.rating"));
 //				film.setSpecialFeatures(rs.getString("film.special_features"));
-				// film.setActors(findActorsByFilmId(filmId));
+				film.setActors(findActors(rs.getInt("film.id")));
 
 				films.add(film);
 
