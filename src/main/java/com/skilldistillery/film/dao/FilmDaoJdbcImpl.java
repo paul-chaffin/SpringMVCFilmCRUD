@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -33,11 +35,6 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		Film film = null;
 
 		try {
-
-//			String sql = "SELECT film.id, film.title, film.description, film.release_year, film.language_id, language.name, film.rental_duration,"
-//					+ " film.rental_rate, film.length, film.replacement_cost, film.rating, film.special_features"
-//					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id "
-//					+ " JOIN language ON language.id=film.language_id where film.id = ?";
 
 			String sql = "SELECT * FROM film join language on film.language_id = language.id where film.id = ?";
 
@@ -73,6 +70,61 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			e.printStackTrace();
 		}
 		return film;
+	}
+	
+	@Override
+	public List<Film> findFilmsBySearchKeyword(String keyword) {
+
+		List<Film> films = new ArrayList<>();
+
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+
+			String sql = "SELECT DISTINCT film (film.id, film.title, film.description, release_year, language_id, rental_duration,"
+					+ " rental_rate, length, replacement_cost, rating, special_features, language.name"
+					+ "	FROM film JOIN film_actor ON film.id = film_actor.film_id"
+					+ " JOIN language ON language.id=film.language_id\n WHERE film.title LIKE ? OR film.description LIKE ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setString(1, "%" + keyword + "%");
+			stmt.setString(2, "%" + keyword + "%");
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+
+				Film film = new Film();
+
+				film.setId(rs.getInt("film.id"));
+				film.setTitle(rs.getString("film.title"));
+				film.setDescription(rs.getString("film.description"));
+				film.setReleaseYear(rs.getInt("film.release_year"));
+				film.setLanguageID(rs.getInt("film.language_id"));
+				film.setLanguage(rs.getString("language.name"));
+
+				film.setRentalDuration(rs.getInt("film.rental_duration"));
+				film.setRentalRate(rs.getDouble("film.rental_rate"));
+				film.setLength(rs.getInt("film.length"));
+				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
+				film.setRating(rs.getString("film.rating"));
+				film.setSpecialFeatures(rs.getString("film.special_features"));
+				// film.setActors(findActorsByFilmId(filmId));
+
+				films.add(film);
+
+			}
+
+			rs.close();
+			stmt.close();
+			conn.close();
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return films;
+
 	}
 
 	@Override
