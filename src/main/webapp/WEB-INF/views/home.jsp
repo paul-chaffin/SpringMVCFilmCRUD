@@ -15,10 +15,18 @@
 
 	<h3>Search for a Film by Film ID</h3>
 	<form action="FindFilmByID.do" method="GET">
-		Film ID: <input type="text" name="filmID" size="4" /> <input
-			type="submit" value="Search" />
+		Film ID: <input type="text" name="filmID" size="5" /> <input
+			type="submit" value="Search by Id" />
 	</form>
 	<br>
+	<hr>
+	<h3>Search for Films by Keyword</h3>
+	<form action="findFilmsBySearchKeyword.do" method="GET">
+		Enter a keyword to search: <input type="text" name="keyword" size="10" /> <input
+			type="submit" value="Search by Keyword" />
+	</form>
+	<br>
+	<hr>
 	<h3>Add a New Film to database:</h3>
 	<form action="CreateNewFilm.do" method="POST">
 		<label for="title"> <strong>Enter film title:</strong>
@@ -26,7 +34,7 @@
 			for="releaseYear"> <strong>Enter release year:</strong>
 		</label><input type="text" name="releaseYear" size="4" /> <br> <label
 			for="rating"> <strong>Enter rating:</strong>
-		</label><input type="text" name="rating" size="4" /> <br> <label
+		</label><input type="text" name="rating" size="5" /> <br> <label
 			for="rentalDuration"> <strong>Enter rental duration:</strong>
 		</label><input type="text" name="rentalDuration" size="6" /> <br> <label
 			for="rentalRate"> <strong>Enter rental rate:</strong>
@@ -37,10 +45,10 @@
 				cost:</strong>
 		</label><input type="text" name="replacementCost" size="6" /> <br> <label
 			for="languageID"> <strong>Enter language ID:</strong>
-		</label><input type="text" name="languageID" size="6" /> <br> <label
+		</label><input type="text" name="languageID" size="4" /> <br> <label
 			for="description"> <strong>Enter description:</strong>
-		</label><input type="text" name="description" size="6" /> <br> <input
-			type="submit" value="Add Film" />
+		</label><input type="text" name="description" size="90" /> <br> <input
+			type="submit" value="Add New Film" />
 	</form>
 
 
