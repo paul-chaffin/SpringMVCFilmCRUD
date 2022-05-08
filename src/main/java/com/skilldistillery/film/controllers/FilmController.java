@@ -1,6 +1,7 @@
 package com.skilldistillery.film.controllers;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,17 @@ public class FilmController {
 		return "WEB-INF/views/home.jsp";
 	}
 
+	@RequestMapping(path = "findFilmsBySearchKeyword.do", params = "keyword", method = RequestMethod.GET)
+	public ModelAndView findFilmByTerm(@RequestParam("keyword") String keyword) {
+		List<Film> films;
+		ModelAndView mv = new ModelAndView();
+		films = filmDao.findFilmsBySearchKeyword(keyword);
+
+		mv.addObject("films", films);
+		mv.setViewName("WEB-INF/views/searchResults.jsp");
+		return mv;
+	}
+
 	@RequestMapping(path = "FindFilmByID.do", params = "filmID", method = RequestMethod.GET)
 	public ModelAndView findFilmByID(@RequestParam("filmID") int filmID) {
 		ModelAndView mv = new ModelAndView();
@@ -41,7 +53,7 @@ public class FilmController {
 //		return "WEB-INF/views/home.jsp"; 
 	}
 
-	@RequestMapping(path = "CreateNewFilm.do", params = {"title", "releaseYear", "rating", "rentalDuration",
+	@RequestMapping(path = "CreateNewFilm.do", params = { "title", "releaseYear", "rating", "rentalDuration",
 			"rentalRate", "replacementCost", "length", "languageID", "description" }, method = RequestMethod.POST)
 	public ModelAndView createFilm(String title, Integer releaseYear, String rating, int rentalDuration,
 			double rentalRate, double replacementCost, Integer length, int languageID, String description) {
