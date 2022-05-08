@@ -2,27 +2,26 @@ package com.skilldistillery.film.entities;
 
 import java.util.List;
 
-
 public class Film {
-	private int id; // task 4 from collaboration exercise 
+	private int id; // task 4 from collaboration exercise
 	private String title;
 	private String description;
-	private Integer releaseYear; 
+	private Integer releaseYear;
 	private int languageID; // will map to foreign key of another table
 	private String language;
 	private int rentalDuration;
 	private double rentalRate;
 	private Integer length;
 	private double replacementCost;
-	private String rating; // enum in film table DESC, use String here 
+	private String rating; // enum in film table DESC, use String here
 	private String specialFeatures; // set in film table DESC, use String here
+	private String category;
 	private List<Actor> actors;
-	
-	
+
 	public Film() {
-		
+
 	}
-	
+
 	public Film(int id, String title, String description, Integer releaseYear, int languageID, int rentalDuration,
 			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
 			List<Actor> actors) {
@@ -38,9 +37,9 @@ public class Film {
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
 		this.actors = actors;
+
 	}
 
-	
 	public Film(int filmId, String filmTitle, Integer releaseYear, String rating, String description, String language) {
 		this.id = filmId;
 		this.title = filmTitle;
@@ -50,8 +49,8 @@ public class Film {
 		this.language = language;
 	}
 
-	public Film(int filmId, String filmTitle, Integer releaseYear, String rating, 
-			String description, String language, List<Actor> actors) {
+	public Film(int filmId, String filmTitle, Integer releaseYear, String rating, String description, String language,
+			List<Actor> actors) {
 		this.id = filmId;
 		this.title = filmTitle;
 		this.description = description;
@@ -61,7 +60,13 @@ public class Film {
 		this.actors = actors;
 	}
 
-	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	public int getId() {
 		return id;
@@ -158,7 +163,7 @@ public class Film {
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
 	}
-	
+
 	public String getLanguage() {
 		return language;
 	}
@@ -167,23 +172,19 @@ public class Film {
 		this.language = language;
 	}
 
-	
 	@Override
 	public String toString() {
 		String filmS = "";
-		
-		filmS += "Title: " + title  + " | Release Year: " + releaseYear 
-				+ " | Language: " + language + " | Rating: " + rating 
-				+ " | Description: " + description 
-				+ "\n" + "Cast of actors: \n";
-		
+
+		filmS += "Title: " + title + " | Release Year: " + releaseYear + " | Language: " + language + " | Rating: "
+				+ rating + " | Description: " + description + "\n" + "Cast of actors: \n";
+
 //		for (Actor actor : actors) {
 //			film += "\t" + actor;
 //		}
 		return filmS;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -202,7 +203,6 @@ public class Film {
 		if (id != other.id)
 			return false;
 		return true;
-	} 
-	
+	}
 
 }

@@ -14,5 +14,6 @@ public interface FilmDAO {
 	public Film updateFilm(Film film);
 	public List<Film> findFilmsBySearchKeyword(String keyword); 
 	public List<Actor> findActors(int filmId);
+	public String findCategories(int filmId);
 
 }

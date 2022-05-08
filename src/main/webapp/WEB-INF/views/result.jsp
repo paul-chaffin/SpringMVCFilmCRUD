@@ -24,6 +24,7 @@
 				<li><strong>Replacement cost:</strong> ${film.replacementCost}</li>
 				<%--  <li><strong>Special Features:</strong> ${film.specialFeatures}</li> --%>
 				<li><strong>Description:</strong> ${film.description}</li>
+				<li><strong>Category:</strong> ${film.category}</li>
 			</ul>
 			<c:if test="${! empty film.actors }">
 				<h3>Cast:</h3>
