@@ -14,57 +14,66 @@ import com.skilldistillery.film.entities.Film;
 
 @Controller
 public class FilmController {
-	
+
 	@Autowired
-	private FilmDAO filmDao; 
-	
-	@RequestMapping(path = {"/", "home.do"})
+	private FilmDAO filmDao;
+
+	@RequestMapping(path = { "/", "home.do" })
 	public String home() {
 		return "WEB-INF/views/home.jsp";
-	} 
-	 
-	@RequestMapping(path = "FindFilmByID.do", params = "filmID", method = RequestMethod.GET) 
+	}
+
+	@RequestMapping(path = "FindFilmByID.do", params = "filmID", method = RequestMethod.GET)
 	public ModelAndView findFilmByID(@RequestParam("filmID") int filmID) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		Film film = null;
 		try {
 			film = filmDao.findFilmByID(filmID);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		mv.addObject("film", film);
-		mv.setViewName("WEB-INF/views/result.jsp"); 
-		
-		return mv; 
+		mv.setViewName("WEB-INF/views/result.jsp");
+
+		return mv;
 //		return "WEB-INF/views/home.jsp"; 
 	}
-	
-	@RequestMapping(path = "CreateNewFilm.do", params = {"title", "rentalDuration", "rentalRate", "replacementCost"} , method=RequestMethod.POST)
-	public ModelAndView createFilm(String title, int rentalDuration, double rentalRate, double replacementCost) {
+
+	@RequestMapping(path = "CreateNewFilm.do", params = {"title", "releaseYear", "rating", "rentalDuration",
+			"rentalRate", "replacementCost", "length", "languageID", "description" }, method = RequestMethod.POST)
+	public ModelAndView createFilm(String title, Integer releaseYear, String rating, int rentalDuration,
+			double rentalRate, double replacementCost, Integer length, int languageID, String description) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		Film newFilm = new Film();
-		
-		newFilm.setTitle(title); 
+
+//		newFilm.setId(id);
+		newFilm.setTitle(title);
+		newFilm.setReleaseYear(releaseYear);
+		newFilm.setRating(rating);
 		newFilm.setRentalDuration(rentalDuration);
 		newFilm.setRentalRate(rentalRate);
-		newFilm.setReplacementCost(replacementCost); 
-		
+		newFilm.setReplacementCost(replacementCost);
+		newFilm.setLength(length);
+		newFilm.setLanguageID(languageID);
+//		updateFilm.setSpecialFeatures(specialFeatures);
+		newFilm.setDescription(description);
+
 		try {
 			newFilm = filmDao.createFilm(newFilm);
 		} catch (Exception e) {
-			
-			e.printStackTrace(); 
+
+			e.printStackTrace();
 		}
-		
+
 		mv.addObject("film", newFilm);
-		mv.setViewName("WEB-INF/views/result.jsp"); 
+		mv.setViewName("WEB-INF/views/result.jsp");
 		return mv;
 	}
-	
-	@RequestMapping(path = "deleteFilm.do", params = "deleteFilmID", method = RequestMethod.GET) 
+
+	@RequestMapping(path = "deleteFilm.do", params = "deleteFilmID", method = RequestMethod.GET)
 	public ModelAndView deleteFilm(Integer deleteFilmID) {
 		ModelAndView mv = new ModelAndView();
 		boolean success = filmDao.deleteFilm(deleteFilmID);
@@ -73,38 +82,37 @@ public class FilmController {
 		} else {
 			mv.setViewName("WEB-INF/views/deletedFailed.jsp");
 		}
-		
-		
-		return mv; 
-		
+
+		return mv;
+
 	}
-	
-	@RequestMapping(path = "updateFilm.do", 
+
+	@RequestMapping(path = "updateFilm.do",
 //			params = {"id", "title", "releaseYear", "rating", "rentalDuration", "rentalRate", "replacementCost", "length", "languageID", "specialFeatures", "description"}, 
-			params = {"id", "title", "releaseYear", "rating", "rentalDuration", "rentalRate", "replacementCost", "length", "languageID", "description"}, 
-			method = RequestMethod.POST)
-	public ModelAndView updateFilm(int id, String title, Integer releaseYear, String rating, int rentalDuration, double rentalRate, double replacementCost, Integer length, int languageID, String description) {
+			params = { "id", "title", "releaseYear", "rating", "rentalDuration", "rentalRate", "replacementCost",
+					"length", "languageID", "description" }, method = RequestMethod.POST)
+	public ModelAndView updateFilm(int id, String title, Integer releaseYear, String rating, int rentalDuration,
+			double rentalRate, double replacementCost, Integer length, int languageID, String description) {
 		ModelAndView mv = new ModelAndView();
-		
-		Film updateFilm = new Film(); 
-		
-		updateFilm.setId(id); 
+
+		Film updateFilm = new Film();
+
+		updateFilm.setId(id);
 		updateFilm.setTitle(title);
 		updateFilm.setReleaseYear(releaseYear);
 		updateFilm.setRating(rating);
 		updateFilm.setRentalDuration(rentalDuration);
 		updateFilm.setRentalRate(rentalRate);
 		updateFilm.setReplacementCost(replacementCost);
-		updateFilm.setLength(length); 
+		updateFilm.setLength(length);
 		updateFilm.setLanguageID(languageID);
 //		updateFilm.setSpecialFeatures(specialFeatures);
-		updateFilm.setDescription(description); 
-		
-		mv.addObject("film", filmDao.updateFilm(updateFilm)); 
-		mv.setViewName("WEB-INF/views/result.jsp"); 
-		
+		updateFilm.setDescription(description);
+
+		mv.addObject("film", filmDao.updateFilm(updateFilm));
+		mv.setViewName("WEB-INF/views/result.jsp");
+
 		return mv;
 	}
-	
-	
+
 }

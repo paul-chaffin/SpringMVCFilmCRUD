@@ -42,7 +42,7 @@
 <h3>Update a film you previously added:</h3>
 	<form action="updateFilm.do" method="POST">
 		<label for="id">Film Id:</label>
-		<input type="text" name="id" size="5" value="${film.id}" /> 
+		<input type="text" name="id" size="5" value="${film.id}" readonly/> 
 		 <br>
 		<label for="title">Title:</label>
 		<input type="text" name="title" size="30" value="${film.title}" /> <br>
