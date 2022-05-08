@@ -18,15 +18,16 @@
 		<table>
 			<c:forEach var="film" items="${films}">
 				<tr>
-					<td>ID: ${film.id}</td>
-					<td>Title: ${film.title}</td>
-					<td>Year: ${film.releaseYear}</td>
-					<td>Rating: ${film.rating}</td>
-					<td>Rental Duration: ${film.rentalDuration}</td>
-					<td>Rental rate: ${film.rentalRate}</td>
-					<td>Language Id: ${film.languageID}</td>
-					<td>Length: ${film.length}</td>
-					<td>Replacement cost: ${film.replacementCost}</td>
+					<td><strong>ID:</strong> ${film.id}</td>
+					<td><strong>Title:</strong> ${film.title}</td>
+					<td><strong>Year:</strong> ${film.releaseYear}</td>
+					<td><strong>Rating:</strong> ${film.rating}</td>
+					<td><strong>Rental Duration:</strong> ${film.rentalDuration}</td>
+					<td><strong>Rental rate:</strong> ${film.rentalRate}</td>
+					<td><strong>Language Id:</strong> ${film.languageID}</td>
+					<td><strong>Length:</strong> ${film.length}</td>
+					<td><strong>Replacement cost:</strong> ${film.replacementCost}</td>
+					<td><strong>Description:</strong> ${film.description}</td>
 				</tr>
 			</c:forEach>
 		</table>
