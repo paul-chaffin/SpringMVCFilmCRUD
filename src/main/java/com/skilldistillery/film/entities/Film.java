@@ -170,17 +170,17 @@ public class Film {
 	
 	@Override
 	public String toString() {
-		String film = "";
+		String filmS = "";
 		
-		film += "Title: " + title  + " | Release Year: " + releaseYear 
+		filmS += "Title: " + title  + " | Release Year: " + releaseYear 
 				+ " | Language: " + language + " | Rating: " + rating 
 				+ " | Description: " + description 
 				+ "\n" + "Cast of actors: \n";
 		
-		for (Actor actor : actors) {
-			film += "\t" + actor;
-		}
-		return film;
+//		for (Actor actor : actors) {
+//			film += "\t" + actor;
+//		}
+		return filmS;
 	}
 	
 	

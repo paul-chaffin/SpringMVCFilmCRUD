@@ -75,8 +75,35 @@ public class FilmController {
 		}
 		
 		
-		return mv;
+		return mv; 
 		
+	}
+	
+	@RequestMapping(path = "updateFilm.do", 
+//			params = {"id", "title", "releaseYear", "rating", "rentalDuration", "rentalRate", "replacementCost", "length", "languageID", "specialFeatures", "description"}, 
+			params = {"id", "title", "releaseYear", "rating", "rentalDuration", "rentalRate", "replacementCost", "length", "languageID", "description"}, 
+			method = RequestMethod.POST)
+	public ModelAndView updateFilm(int id, String title, Integer releaseYear, String rating, int rentalDuration, double rentalRate, double replacementCost, Integer length, int languageID, String description) {
+		ModelAndView mv = new ModelAndView();
+		
+		Film updateFilm = new Film(); 
+		
+		updateFilm.setId(id); 
+		updateFilm.setTitle(title);
+		updateFilm.setReleaseYear(releaseYear);
+		updateFilm.setRating(rating);
+		updateFilm.setRentalDuration(rentalDuration);
+		updateFilm.setRentalRate(rentalRate);
+		updateFilm.setReplacementCost(replacementCost);
+		updateFilm.setLength(length); 
+		updateFilm.setLanguageID(languageID);
+//		updateFilm.setSpecialFeatures(specialFeatures);
+		updateFilm.setDescription(description); 
+		
+		mv.addObject("film", filmDao.updateFilm(updateFilm)); 
+		mv.setViewName("WEB-INF/views/result.jsp"); 
+		
+		return mv;
 	}
 	
 	
