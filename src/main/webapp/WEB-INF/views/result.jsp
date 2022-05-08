@@ -12,28 +12,28 @@
 <body>
 	<c:choose>
 		<c:when test="${! empty film}">
-			<ul>
-				<li><strong>ID:</strong> ${film.id}</li>
-				<li><strong>Title:</strong> ${film.title}</li>
-				<li><strong>Year:</strong> ${film.releaseYear}</li>
-				<li><strong>Rating:</strong> ${film.rating}</li>
-				<li><strong>Rental Duration:</strong> ${film.rentalDuration}</li>
-				<li><strong>Rental rate:</strong> ${film.rentalRate}</li>
-				<li><strong>Language Id:</strong> ${film.languageID}</li>
-				<li><strong>Length:</strong> ${film.length}</li>
-				<li><strong>Replacement cost:</strong> ${film.replacementCost}</li>
-				<li><strong>Special Features:</strong> ${film.specialFeatures}</li>
-				<li><strong>Description:</strong> ${film.description}</li>
-				<li><strong>Category:</strong> ${film.category}</li>
-			</ul>
-			<c:if test="${! empty film.actors }">
-				<h3>Cast:</h3>
-			</c:if>
-			<ul>
-				<c:forEach var="actor" items="${film.actors}">
-					<li>${actor.firstName} ${actor.lastName}</li>
-				</c:forEach>
-			</ul>
+			<table>
+				<tr>
+					<td><strong>ID:</strong> ${film.id}</td>
+					<td><strong>Title:</strong> ${film.title}</td>
+					<td><strong>Year:</strong> ${film.releaseYear}</td>
+					<td><strong>Rating:</strong> ${film.rating}</td>
+					<td><strong>Rental Duration:</strong> ${film.rentalDuration}</td>
+					<td><strong>Rental rate:</strong> ${film.rentalRate}</td>
+					<td><strong>Language Id:</strong> ${film.languageID}</td>
+					<td><strong>Length:</strong> ${film.length}</td>
+					<td><strong>Replacement cost:</strong> ${film.replacementCost}</td>
+					<td><strong>Special Features:</strong> ${film.specialFeatures}</td>
+					<td><strong>Description:</strong> ${film.description}</td>
+					<td><strong>Category:</strong> ${film.category}</td>
+					<c:if test="${! empty film.actors }">
+
+					</c:if>
+					<td><c:forEach var="actor" items="${film.actors}">
+					${actor.firstName} ${actor.lastName}
+				</c:forEach></td>
+				</tr>
+			</table>
 
 		</c:when>
 		<c:otherwise>
