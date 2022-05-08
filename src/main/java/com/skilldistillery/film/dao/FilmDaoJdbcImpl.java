@@ -163,7 +163,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setLength(rs.getInt("film.length"));
 				film.setReplacementCost(rs.getDouble("film.replacement_cost"));
 				film.setRating(rs.getString("film.rating"));
-//				film.setSpecialFeatures(rs.getString("film.special_features"));
+				film.setSpecialFeatures(rs.getString("film.special_features"));
 				film.setActors(findActors(rs.getInt("film.id")));
 				film.setCategory(findCategories(rs.getInt("film.id")));
 

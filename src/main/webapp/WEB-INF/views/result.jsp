@@ -22,7 +22,7 @@
 				<li><strong>Language Id:</strong> ${film.languageID}</li>
 				<li><strong>Length:</strong> ${film.length}</li>
 				<li><strong>Replacement cost:</strong> ${film.replacementCost}</li>
-				<%--  <li><strong>Special Features:</strong> ${film.specialFeatures}</li> --%>
+				<li><strong>Special Features:</strong> ${film.specialFeatures}</li>
 				<li><strong>Description:</strong> ${film.description}</li>
 				<li><strong>Category:</strong> ${film.category}</li>
 			</ul>
